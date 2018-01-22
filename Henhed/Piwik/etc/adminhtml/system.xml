@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2016-2017 Henrik Hedelund
+ *
+ * This file is part of Henhed_Piwik.
+ *
+ * Henhed_Piwik is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Henhed_Piwik is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Henhed_Piwik.  If not, see <http://www.gnu.org/licenses/>.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="piwik"
+                 translate="label"
+                 type="text"
+                 sortOrder="360"
+                 showInDefault="1"
+                 showInWebsite="1"
+                 showInStore="1">
+            <label>NEURAi Pixel API</label>
+            <tab>sales</tab>
+            <resource>Henhed_Piwik::piwik</resource>
+            <group id="tracking"
+                   translate="label"
+                   type="text"
+                   sortOrder="10"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+                <label>Tracking API</label>
+                <field id="enabled"
+                       translate="label"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enable Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hostname"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Hostname</label>
+                    <comment>NEURAi hostname, optionally including a path e.g. http://demo.neurai.io</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <frontend_class>required-entry</frontend_class>
+                </field>
+                <field id="site_id"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="30"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Customer Site ID</label>
+                    <comment>Site ID given by NEURAi</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <frontend_class>required-entry validate-digits validate-zero-or-greater</frontend_class>
+                </field>
+                <field id="link_enabled"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enable Link Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable tracking of outlinks and downloads </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="content_tracking_enabled"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enable Content Impression Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment> Enable Product SKU content impressions and interactions tracking</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="link_delay"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="50"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Link Tracking Timer</label>
+                    <comment>Delay for link tracking in milliseconds</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="link_enabled">1</field>
+                    </depends>
+                    <frontend_class>validate-digits validate-zero-or-greater</frontend_class>
+                </field>
+                <field id="uid_provider"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="60"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enable User ID Tracking</label>
+                    <source_model>Henhed\Piwik\Model\Config\Source\UserId\Provider</source_model>
+                    <comment>Send logged in customers ID to Piwik</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <group id="advanced"
+                       translate="label"
+                       type="text"
+                       sortOrder="70"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Advanced Options</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <field id="php_script_path"
+                           translate="label comment"
+                           type="text"
+                           sortOrder="10"
+                           showInDefault="1"
+                           showInWebsite="1"
+                           showInStore="1">
+                        <label>PHP Script Path</label>
+                        <config_path>piwik/tracking/php_script_path</config_path>
+                        <comment>Path to the NEURAi tracker PHP script. Usually &quot;piwik.php&quot;.</comment>
+                        <frontend_class>required-entry</frontend_class>
+                    </field>
+                    <field id="js_script_path"
+                           translate="label comment"
+                           type="text"
+                           sortOrder="20"
+                           showInDefault="1"
+                           showInWebsite="1"
+                           showInStore="1">
+                        <label>Javascript Path</label>
+                        <config_path>piwik/tracking/js_script_path</config_path>
+                        <comment>Path to the NEURAi tracker Javascript. Usually &quot;piwik.js&quot;.</comment>
+                        <frontend_class>required-entry</frontend_class>
+                    </field>
+                    <field id="cdn_hostname"
+                           translate="label comment"
+                           type="text"
+                           sortOrder="30"
+                           showInDefault="1"
+                           showInWebsite="1"
+                           showInStore="1">
+                        <label>CDN Hostname</label>
+                        <config_path>piwik/tracking/cdn_hostname</config_path>
+                        <comment>Hostname for serving the NEURAi tracker Javascript. May be left empty in which case the regular hostname will be used.</comment>
+                    </field>
+
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
